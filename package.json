@@ -1,0 +1,42 @@
+{
+  "name": "chika-wagbara",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alaminprogramerr/Chika-Wagbara.git"
+  },
+  "author": "Md Selim Reza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alaminprogramerr/Chika-Wagbara/issues"
+  },
+  "homepage": "https://github.com/alaminprogramerr/Chika-Wagbara#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.11",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "react-to-print": "^2.12.1",
+    "validator": "^13.1.17"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}

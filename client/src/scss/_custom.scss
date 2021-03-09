@@ -1,0 +1,23 @@
+// Here you can add other styles
+// colors : orange,  gray white
+.c-sidebar {
+    background-color: gray;
+}
+.c-sidebar-nav-dropdown-toggle:hover {
+    background-color: orange !important;
+}
+
+.c-sidebar-nav-link .c-sidebar-nav-item:hover {
+    background-color: orange !important;
+}
+
+.c-sidebar .c-sidebar-nav-link:hover,
+.c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
+    background-color: orange !important;
+}
+#root {
+    overflow: hidden;
+}
+.c-active {
+    background-color: orange !important;
+}
