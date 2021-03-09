@@ -1,7 +1,7 @@
 {
-  "name": "@coreui/coreui-free-react-admin-template",
+  "name": "bio-systems-diagnostics",
   "version": "3.0.0",
-  "description": "CoreUI React Open Source Bootstrap 4 Admin Template",
+  "description": "Bio Systems Diagnostics MERN Stack Application ",
   "author": {
     "name": "CoreUI",
     "url": "https://coreui.io",
@@ -54,9 +54,7 @@
     "test:debug": "react-scripts --inspect-brk test --runInBand",
     "eject": "react-scripts eject"
   },
-  "bugs": {
-    "url": "https://github.com/coreui/coreui-free-react-admin-template/issues"
-  },
+  "bugs": {},
   "eslintConfig": {
     "extends": "react-app"
   },
