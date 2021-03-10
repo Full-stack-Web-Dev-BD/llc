@@ -4,6 +4,18 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const cors = require('cors');
 const path = require('path');
+const morgan = require('morgan');
+
+
+const app = express();
+app.use(cors())
+
+const port = process.env.PORT || 5000;
+app.use(morgan('dev'))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Routes
 const users = require('./routes/users');
 const branchs = require('./routes/branchs');
 const staffs = require('./routes/staffs');
@@ -25,18 +37,10 @@ const branchInventories = require('./routes/branchInventories');
 const tests = require('./routes/tests');
 const products = require('./routes/products');
 const reportTypes = require('./routes/reportTypes');
-const morgan = require('morgan');
 
-const app = express();
 
-const port = process.env.PORT || 5000;
-app.use(morgan('dev'))
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(cors())
 app.use('/uploads', express.static('./uploads'));
 app.use(passport.initialize());
-mongoose.set('useFindAndModify', false);
 
 require('./middleware/passport')(passport);
 
@@ -45,7 +49,7 @@ const db = require('./config/keys').mongoURI;
 
 //MongoDB connect
 mongoose
-  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log(err));
 

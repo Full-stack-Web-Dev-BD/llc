@@ -55,7 +55,7 @@ const Setting = React.lazy(() => import('./views/pages/Setting/Setting'));
 const routes = [
   { path: '/', exact: true, name: 'Home' },
 
-
+  // Organization
   { path: '/organization/user-management', name: 'User Management', component: UserManagement },
   { path: '/organization/branch-management', name: 'Branches', component: Branches },
 
@@ -64,6 +64,7 @@ const routes = [
   { path: '/setting', name: 'Setting', component: Setting },
 
 
+  // Auth
 
 
 

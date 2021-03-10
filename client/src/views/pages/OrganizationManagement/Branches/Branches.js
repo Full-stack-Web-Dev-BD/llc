@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     CBadge,
     CButton,
@@ -17,6 +17,7 @@ import {
     CModalTitle,
 } from '@coreui/react'
 import BranchCreateForm from './BranchCreateForm'
+import axios from 'axios'
 
 const getBadge = status => {
     switch (status) {
@@ -27,12 +28,26 @@ const getBadge = status => {
         default: return 'primary'
     }
 }
-const fields = ['BranchID', 'Name', 'Location', 'Phone1', 'Phone2', 'Email', 'Address', 'City', 'State', 'Country']
+const fields = ["name", "location", "address", "phone1", "phone2", "email", "action"]
+
 
 
 const Branches = () => {
-    const [allBranch, setAllBranch] = useState([12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12,])
+    const [allBranch, setAllBranch] = useState([])
     const [BranchCreateModal, setBranchCreateModal] = useState(false)
+
+
+    useEffect(() => {
+        axios.get('/api/branchs/allBranch')
+            .then((response => {
+                console.log()
+                setAllBranch(response.data)
+            }))
+            .catch(err => { console.log(err) })
+    }, [])
+
+
+
     return (
         <>
             <CJumbotron className="border">
@@ -73,15 +88,16 @@ const Branches = () => {
                                 size="sm"
                                 itemsPerPage={30}
                                 pagination
+
                                 scopedSlots={{
-                                    'status':
+
+                                    'action':
                                         (item) => (
                                             <td>
-                                                <CBadge color={getBadge(item.status)}>
-                                                    {item.status}
-                                                </CBadge>
+                                                <CButton color="success" size="small"> Details </CButton>
                                             </td>
                                         )
+
                                 }}
                             />
                         </CCardBody>

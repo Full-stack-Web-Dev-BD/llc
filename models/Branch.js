@@ -15,6 +15,11 @@ const branchSchema=new Schema({
 		type:String,
 		require:true
 	},
+	
+	country:{
+		type:String,
+		require:true
+    },
 	city:{
 		type:String,
 		require:true
@@ -29,9 +34,6 @@ const branchSchema=new Schema({
 		type:String
 	},
 	email:{
-		type:String
-	},
-	branchId:{
 		type:String
 	},
 	date:{

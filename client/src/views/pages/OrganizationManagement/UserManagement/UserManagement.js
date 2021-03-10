@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     CBadge,
     CButton,
@@ -17,6 +17,7 @@ import {
     CModalTitle,
 } from '@coreui/react'
 import Register from './UserRegisterForm'
+import axios from 'axios'
 
 const getBadge = status => {
     switch (status) {
@@ -27,11 +28,20 @@ const getBadge = status => {
         default: return 'primary'
     }
 }
-const fields = ['name', 'registered', 'role', 'status']
+const fields = ['name', 'email', 'user_role']
 
 const UserManagement = () => {
-    const [allUser, setAllUser] = useState([12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 21, 12,])
+    const [allUser, setAllUser] = useState([])
     const [userCreateModal, setUserCreateModal] = useState(false)
+
+
+    useEffect(() => {
+        axios.get('/api/users/allUser')
+            .then((response) => {
+                setAllUser(response.data)
+            })
+            .catch(err => console.log(err))
+    }, [])
     return (
         <>
             <CJumbotron className="border">
@@ -72,16 +82,6 @@ const UserManagement = () => {
                                 size="sm"
                                 itemsPerPage={30}
                                 pagination
-                                scopedSlots={{
-                                    'status':
-                                        (item) => (
-                                            <td>
-                                                <CBadge color={getBadge(item.status)}>
-                                                    {item.status}
-                                                </CBadge>
-                                            </td>
-                                        )
-                                }}
                             />
                         </CCardBody>
                     </CCard>

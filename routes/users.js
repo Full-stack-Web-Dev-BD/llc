@@ -61,7 +61,8 @@ router.post('/register', upload.single("photo"), (req, res) => {
 					name: req.body.name,
 					email: req.body.email,
 					//photo:req.file.path,
-					user_role: req.body.user_role,
+					phone: req.body.phone,
+					// user_role: req.body.user_role,
 					password: req.body.password
 				})
 				bcrypt.genSalt(10, (err, salt) => {
@@ -82,6 +83,47 @@ router.post('/register', upload.single("photo"), (req, res) => {
 		})
 })
 
+
+
+router.post('/register-user', upload.single("photo"), (req, res) => {
+
+	const { errors, isValid } = validateRegisterInput(req.body);
+
+	if (!isValid) {
+		return res.status(400).json(errors);
+	}
+	User.findOne({ email: req.body.email })
+		.then((user) => {
+			if (user) {
+				errors.email = 'Email already exits';
+				res.status(400).json(errors);
+			} else {
+				const newUser = new User({
+					name: req.body.name,
+					email: req.body.email,
+					//photo:req.file.path,
+					passwordDecoded: req.body.password,
+					phone: req.body.phone,
+					// user_role: req.body.user_role,
+					password: req.body.password
+				})
+				bcrypt.genSalt(10, (err, salt) => {
+					bcrypt.hash(newUser.password, salt, (err, hash) => {
+						if (err) throw err;
+						newUser.password = hash;
+						newUser.save()
+							.then((user) => {
+								res.json(user);
+							})
+							.catch((err) => {
+								console.log(err);
+							})
+					})
+
+				})
+			}
+		})
+})
 router.post('/login', (req, res) => {
 	const { errors, isValid } = validateLoginInput(req.body);
 
@@ -95,7 +137,7 @@ router.post('/login', (req, res) => {
 		.then(user => {
 			if (!user) {
 				errors.email = 'User not found';
-				res.status(404).json(errors);
+				return res.status(400).json(errors);
 			}
 
 			bcrypt.compare(password, user.password)
@@ -105,7 +147,7 @@ router.post('/login', (req, res) => {
 						jwt.sign(
 							payload,
 							keys.secretOrKey,
-							{ expiresIn: 36000 },
+							{ expiresIn: 36000 * 4 },
 							(err, token) => {
 								res.json({
 									success: true,
@@ -120,7 +162,7 @@ router.post('/login', (req, res) => {
 		});
 });
 
-router.post('/update/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.post('/update/:id', (req, res) => {
 	User.findByIdAndUpdate({ _id: req.params.id }, req.body).then(user => {
 		res.json(user)
 	}).catch(err => {
@@ -128,13 +170,18 @@ router.post('/update/:id', passport.authenticate('jwt', { session: false }), (re
 	})
 })
 
-router.get('/delete/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/delete/:id', (req, res) => {
 	User.findByIdAndRemove({ _id: req.params.id })
 		.then(data => console.log('data delete succesfully'))
 		.catch(err => console.log(err));
 })
 
-router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/allUser', (req, res) => {
+	User.find()
+		.then(users => res.json(users))
+		.catch(err => console.log(err));
+})
+router.get('/current', (req, res) => {
 	res.json({
 		id: req.user.id,
 		name: req.user.name,
